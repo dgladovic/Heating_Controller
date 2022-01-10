@@ -23,4 +23,4 @@ While keeping the radiator water temperature lower, we also have to keep in mind
 
 5. Future improvements 
 
-Arduino #2 will be replaced with a NodeMCU, so we can access the data via web. 
+Arduino #2 will be replaced with a NodeMCU, so we can access the data via web. There will be BLE temperature monitors in every room, whose data will be collected with an ESP8266 device, that will communicate with NodeMCU and form a voting system, to determine weather to turn the bolier on or off. 

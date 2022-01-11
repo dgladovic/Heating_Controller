@@ -195,7 +195,7 @@ void SlikaIN(){
 void StanjePeleta(){                //Treba da se testira, NE VALJA NIKAKO, kada sa debugerom radi salje neke cudne vrednosti
     if ((tt == 1) && (pp == 1)){
         if (ton1 < ton2){               //ovo ce mozda normalizovati neke vrednosti
-            puls = ton2 - ton1;         //Ovo je intiger, tako da treba smisliti glavom ovom retardiranom sta da radim 
+            puls = ton2 - ton1;         //Ovo je intiger, treba prebaciti u upotrebljiv format 
             tt = 0;
             pp = 0;
             sanduk = sanduk - puls*g_s;
@@ -235,7 +235,7 @@ void AntiFrost(){
                                           //Da li ce pre podici povrat ili temperaturu kotla, ne znam pa treba izbaciti ukoliko se to desi
         }
     }
-    else if((t5 >= 5.0) && (a = true)){ //ako se senzor zajebe, a desava se
+    else if((t5 >= 5.0) && (a = true)){ //ako se izgubi merenje, a desava se
       a = false;
       digitalWrite(bp7,HIGH);
     }
@@ -299,7 +299,7 @@ void Regulacija(){                                                              
     if((time1-RegStartTime > RegTime) || (RegStartTime == 1)){                      //Zadaje novu vrednost polazne temperature na svakih sat vremena
         RegStartTime += RegTime;                                                    //pa treba onda to usloviti sa nekim temperaturnim histerezisom
         Tzelj = 4.1667e-4*pow(t5,3) + 0.0195*pow(t5,2) + -0.7917*t5 + 45.3148;      //Nova kriva iz Matlab-a
-    }                                                               //stalno ulazi u ovu petlju, pogresan ili uslov
+    }                                                               //stalno ulazi u ovu petlju, pogresan ili uslov BIO
     
     if((t6 > Tzelj) && (s == false)){
         r = true;
@@ -313,7 +313,7 @@ void Regulacija(){                                                              
     }                                       // problem je ovde BIO
     else{                                                     //Ukoliko nije u histerezisu, pomeraj
         if((s == false) && (bb == false) && (r == true)){      //Ukoliko nije start u toku
-            if (time1 - windowStartTime > WindowSize){     //Na svaka 2 minuta pomerati ventil???    --  ovo se radi nakon zavrsavanja start rezima, jer ce osc
+            if (time1 - windowStartTime > WindowSize){     //Na svaka 2 minuta pomerati ventil???    --  ovo se radi nakon zavrsavanja start rezima, jer ce oscilovati
                 windowStartTime += WindowSize;
                 //Regulacija_prava
                 
@@ -349,9 +349,9 @@ void Regulacija(){                                                              
     Tmix = y*t6*0.01 + (100-y)*t7*0.01;   //y - udeo kotla * Tkotla + (1-y) udeo iz instalacije*povrat temperatura
                                           // uporediti t2 sa Tmix
 }
-void Terminacija(){                 //Hajde implementrijA OVOV AISLJAKSDJLKAj KADA SE PALI PUMPTA
+void Terminacija(){                 //Implementirati kada se pali pumpa, a kada ne
     StanjePeleta();
-        if((t2 <= 38.0) && (s == true)){     //Kada priv put startne
+        if((t2 <= 38.0) && (s == true)){     //Kada prvi put startuje
             bb = true;
             digitalWrite(bp8,HIGH);
         }
@@ -363,7 +363,7 @@ void Terminacija(){                 //Hajde implementrijA OVOV AISLJAKSDJLKAj KA
             bb = false;
             digitalWrite(bp8,LOW);  //Ostavi upaljenu pumpu    
         }
-        //DOVDE SAM STIGAO SINOC< SUTRA RAZMISLJA O OVOME
+        //OVDE SAM STIGAO SINOC< SUTRA RAZMISLJA O OVOME
         
         if(t2 <= 38.0 || (r == false) || (s == true)){              //Temperatura mesanja, trebalo bi temperatura izvora
             bb = true;
@@ -405,7 +405,7 @@ void Preracunavanje(){
   //Izracunaj izvedene vrednosti i upisi // izbaci na display???
 }
 
-void Sender(){
+void Sender(){       //Comm protocol UART
   StanjePeleta();
   
   Serial.print('q');

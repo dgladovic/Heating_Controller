@@ -39,7 +39,7 @@ To avoid temperature oscilations, we need to raise the temperature slowly, with 
   <img width="420" height="390" src="https://github.com/dgladovic/Heating_Controller/blob/main/Resources/Hcurv.png">
 </p>
 
-While keeping the radiator water temperature lower, we also have to keep in mind that the boiler water temperature needs to be high, so we can maximize the boiler fuel consumption efficiency. That's why we need to have a control algorithm for the mixing valve to keep both temperatures in order. Although, that is physically hard, our main priority is keeping the radiator water temperature in check, while we can be less strict in keeping the bolier temperature in order. 
+While keeping the radiator water temperature lower, we also have to keep in mind that the boiler water temperature needs to be high, so we can maximize the boiler fuel consumption efficiency. That's why we need to have a control algorithm for the mixing valve to keep both temperatures in order. Although, that is physically hard due to the second law of thermodynamics, our main priority is keeping the radiator water temperature in check, while we can be less strict in keeping the bolier temperature in order. 
 
 # 3. Hardware Implementation
 
@@ -51,6 +51,10 @@ The main hardware topology is presented here along with communication protocols 
 
 # 4. Logging, web data
 
+All the main system paramters for process identification (mostly temeprature info), along with fuel consumption and consumption prediction are displayed on the OLED display while being stored in the SD Card. Since this is the first year of commisioning, fine adjustments are expected according to the measurements and logs that are being saved. 
+
 # 5. Future improvements 
 
 Arduino #2 will be replaced with a NodeMCU, so we can access the data via web. There will be BLE temperature monitors in every room, which data will be collected with an ESP8266 device, that will communicate with NodeMCU and form a voting system to determine whether to turn the bolier on or off. 
+
+
